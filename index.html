@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank Loan Form with Animated Background</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body styling with background animation */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6e6fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Floating Particles Background */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      background-color: rgba(98, 0, 234, 0.5);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 10s infinite ease-in-out;
+    }
+
+    /* Keyframes for particle animation */
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(-50vh) translateX(20vw);
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(-20vw);
+        opacity: 0;
+      }
+    }
+
+    /* Form Container */
+    .form-container {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+      z-index: 1;
+      position: relative;
+    }
+
+    /* Title styling */
+    .form-container h2 {
+      text-align: center;
+      color: #4e00b7;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* Form Group */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    /* Label Styling */
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    /* Input Styling */
+    .form-group input[type="text"],
+    .form-group input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    /* Focus Effect on Input */
+    .form-group input[type="text"]:focus,
+    .form-group input[type="number"]:focus {
+      outline: none;
+      border-color: #6200ea;
+      box-shadow: 0 0 5px rgba(98, 0, 234, 0.2);
+    }
+
+    /* Button Styling */
+    .submit-button {
+      width: 100%;
+      padding: 12px;
+      background-color: #6200ea;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+      background-color: #4e00b7;
+    }
+
+    /* Message Styling */
+    .response-message {
+      text-align: center;
+      color: #28a745;
+      font-size: 16px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    /* Submit Another Response Styling */
+    .submit-another {
+      text-align: center;
+      color: #6200ea;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 16px;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .submit-another:hover {
+      color: #4e00b7;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particles">
+  <!-- Creating multiple particle elements with varying size, position, and animation delay -->
+  <div class="particle" style="width: 30px; height: 30px; top: 80%; left: 10%; animation-delay: 0s;"></div>
+  <div class="particle" style="width: 40px; height: 40px; top: 90%; left: 30%; animation-delay: 2s;"></div>
+  <div class="particle" style="width: 50px; height: 50px; top: 75%; left: 60%; animation-delay: 4s;"></div>
+  <div class="particle" style="width: 35px; height: 35px; top: 85%; left: 80%; animation-delay: 6s;"></div>
+</div>
+
+<div class="form-container">
+  <h2>Bank Loan Form</h2>
+  <form id="loanForm">
+    <div class="form-group">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="account-number">Account Number *</label>
+      <input type="number" id="account-number" name="account-number" required>
+    </div>
+    <div class="form-group">
+      <label for="ifsc">IFSC Code *</label>
+      <input type="text" id="ifsc" name="ifsc" required>
+    </div>
+    <div class="form-group">
+      <label for="address">Permanent Address *</label>
+      <input type="text" id="address" name="address" required>
+    </div>
+    <div class="form-group">
+      <label for="loan-amount">Loan Amount *</label>
+      <input type="number" id="loan-amount" name="loan-amount" required>
+    </div>
+    <button type="submit" class="submit-button">Submit</button>
+  </form>
+  <div id="responseMessage" class="response-message" style="display: none;">
+    Form submitted successfully!
+  </div>
+  <div id="submitAnother" class="submit-another" style="display: none;" onclick="resetForm()">Submit Another Response</div>
+</div>
+
+<script>
+  const form = document.getElementById('loanForm');
+  const responseMessage = document.getElementById('responseMessage');
+  const submitAnother = document.getElementById('submitAnother');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission from reloading the page
+
+    // Show submission confirmation
+    responseMessage.style.display = 'block';
+    submitAnother.style.display = 'block';
+
+    // Hide form
+    form.style.display = 'none';
+
+    // Clear the form inputs
+    form.reset();
+  });
+
+  function resetForm() {
+    // Hide the submission message and show the form again
+    responseMessage.style.display = 'none';
+    submitAnother.style.display = 'none';
+    form.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
